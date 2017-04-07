@@ -36,14 +36,14 @@ if not validate_bool_input(auto_delete):
     sys.exit(1)
 
 # create GitHub object
-g = Github(username, password)
+g = Github(username, password, per_page=100)
 
 # define repo and pull requests
 print("get repo from {}/{}".format(github_user, github_repo))
 repo = g.get_user(github_user).get_repo(github_repo)
 
 print("get pull requests")
-pulls = repo.get_pulls("closed").reversed
+pulls = repo.get_pulls("closed")
 
 print("get head refs")
 refs = ["heads/{}".format(pull.head.ref) for pull in pulls]
