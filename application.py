@@ -43,7 +43,7 @@ print("get repo from {}/{}".format(github_user, github_repo))
 repo = g.get_user(github_user).get_repo(github_repo)
 
 print("get pull requests")
-pulls = repo.get_pulls("closed", "desc")
+pulls = repo.get_pulls("closed").reversed
 
 print("get head refs")
 refs = ["heads/{}".format(pull.head.ref) for pull in pulls]
