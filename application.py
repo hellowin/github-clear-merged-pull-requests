@@ -8,11 +8,28 @@ github_repo = input('GitHub repository name: ')
 auto_delete = input('Automatic delete merged repo? (y/n): ')
 
 def validate_bool_input(bool_input):
-    if auto_delete is 'y' or auto_delete is 'n':
+    if auto_delete is "y" or auto_delete is "n":
         return True
     else:
         print('automatic delete must be "y" or "n"!')
         return False
+
+# check branch validity
+def check(branch):
+    try:
+        ref = repo.get_git_ref(branch)
+        return ref
+    except:
+        print("branch " + branch + " is not found")
+        return None
+
+# delete branch
+def delete(ref):
+    try:
+        ref.delete()
+        print(ref.ref + " has been deleted")
+    except:
+        print(ref.ref + " is not found")
 
 # validate auto delete input
 if not validate_bool_input(auto_delete):
@@ -22,34 +39,26 @@ if not validate_bool_input(auto_delete):
 g = Github(username, password)
 
 # define repo and pull requests
+print("get repo from {}/{}".format(github_user, github_repo))
 repo = g.get_user(github_user).get_repo(github_repo)
-pulls = repo.get_pulls('closed').reversed
 
-# check branch validity
-def check(branch):
-    try:
-        ref = repo.get_git_ref(branch)
-        return ref
-    except:
-        print('branch ' + branch + ' is not found')
-        return None
+print("get pull requests")
+pulls = repo.get_pulls("closed", "desc")
 
-# delete branch
-def delete(ref):
-    try:
-        ref.delete()
-        print(ref.ref + ' has been deleted')
-    except:
-        print(ref.ref + ' is not found')
+print("get head refs")
+refs = ["heads/{}".format(pull.head.ref) for pull in pulls]
 
-for pull in pulls:
-    ref_string = 'heads/' + pull.head.ref
-    valid_branch = check(ref_string)
-    if valid_branch is None:
-        continue
-    if auto_delete is 'y':
-        delete(valid_branch)
+print("validate {} branche(s)".format(len(refs)))
+check_valids = [check(ref) for ref in refs]
+
+print("remove invalid branche(s)")
+valids = [val for val in check_valids if val is not None]
+
+print("perform deletion for {} branche(s)".format(len(valids)))
+for valid in valids:
+    if auto_delete is "y":
+        delete(valid)
     else:
-        is_del = input('Do you want to delete branch ' + ref_string + '? (y/n): ')
-        if is_del is 'y':
-            delete(valid_branch)
+        is_del = input("Do you want to delete branch " + valid.ref + "? (y/n): ")
+        if is_del is "y":
+            delete(valid)
