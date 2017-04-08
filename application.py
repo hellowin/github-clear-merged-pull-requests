@@ -31,7 +31,7 @@ def delete(ref):
         ref.delete()
         print(ref.ref + " has been deleted")
     except:
-        print(ref.ref + " is not found")
+        pass
 
 # validate auto delete input
 if not validate_bool_input(auto_delete):
