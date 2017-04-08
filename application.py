@@ -45,7 +45,7 @@ print("get repo from {}/{}".format(github_user, github_repo))
 repo = g.get_user(github_user).get_repo(github_repo)
 
 while True:
-    print("get pull requests from page {}".format(page))
+    print("get pull requests from page {} with {} pull(s) per page".format(page, per_page))
     pulls = repo.get_pulls("closed").get_page(page)
 
     print("get head refs")
