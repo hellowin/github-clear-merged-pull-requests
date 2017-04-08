@@ -1,5 +1,7 @@
 # GitHub PR Cleansing
-This tool is used to clear merged pull requests ref (branch) on GitHub. Since GitHub have no feature to auto deletion branch on pull request, we usually has been forgotten to delete the branch manually.
+This tool is used to clear merged pull requests ref (branch) on GitHub.
+
+GitHub has no feature to auto delete branches on pull request, and we usually forget to delete the branch manually.  PR Cleansing provides a quick, easy PR clear using the CLI.  
 
 # Installation
 
@@ -19,4 +21,4 @@ $ pip install -r requirements.txt
 $ python application.py
 ```
 
-Just follow the instruction on cli. Input the GitHub username, password, target user/ organization, target repository. This tool will automatically cleaning your beloved repository for you.
+Just follow the instructions on cli. Input the GitHub username, password, target user/ organization, target repository. This tool will automatically clean your beloved repository for you.
